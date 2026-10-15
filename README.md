@@ -27,10 +27,10 @@ One measured example (collect 100 PubMed papers with curl): the main session did
 
 ## Install
 
-From GitHub (replace `<user>` with the account hosting this repo):
+From GitHub (or from a fork: replace `poachersbz` with its owner):
 
 ```
-/plugin marketplace add <user>/savvy-router
+/plugin marketplace add poachersbz/savvy-router
 /plugin install router-workers@savvy-router
 /plugin install savvy-router@savvy-router
 ```
