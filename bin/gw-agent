@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Fallback without the mod: run one headless Claude Code agent through a local
+# Anthropic-compatible gateway (9router or similar).
+# Usage: gw-agent [-m MODEL] [-t TOOLS] [-s SYSPROMPT_FILE] [-d WORKDIR] "prompt"
+#        gw-agent --models
+# Needs ROUTER_GATEWAY_KEY; ROUTER_GATEWAY_URL defaults to http://localhost:20128.
+#   MODEL defaults to $ROUTER_DEFAULT_MODEL, else ag/gemini-3.8-flash-high
+#   TOOLS defaults to "Read Grep Glob Bash Edit Write"
+set -euo pipefail
+KEY=${ROUTER_GATEWAY_KEY:?set ROUTER_GATEWAY_KEY to your gateway API key}
+BASE=${ROUTER_GATEWAY_URL:-http://localhost:20128}
+BASE=${BASE%/}; BASE=${BASE%/v1}
+CLAUDE=${CLAUDE_BIN:-claude}
+if [[ "${1:-}" == "--models" ]]; then
+  curl -s -m 10 "$BASE/v1/models" -H "Authorization: Bearer $KEY" | grep -o '"id":"[^"]*"' | sed 's/"id":"//;s/"//'
+  exit 0
+fi
+MODEL=${ROUTER_DEFAULT_MODEL:-ag/gemini-3.8-flash-high}
+TOOLS="Read Grep Glob Bash Edit Write"
+SYS=""
+DIR=""
+while getopts "m:t:s:d:" o; do case $o in m) MODEL=$OPTARG;; t) TOOLS=$OPTARG;; s) SYS=$(cat "$OPTARG");; d) DIR=$OPTARG;; *) exit 2;; esac; done
+shift $((OPTIND-1))
+if [[ -n "$DIR" ]]; then cd "$DIR"; fi
+ARGS=(-p "$*" --model "$MODEL" --tools "${TOOLS// /,}" --allowedTools $TOOLS --permission-mode acceptEdits --strict-mcp-config)
+if [[ -n "$SYS" ]]; then ARGS+=(--append-system-prompt "$SYS"); fi
+ANTHROPIC_BASE_URL=$BASE ANTHROPIC_AUTH_TOKEN="$KEY" ANTHROPIC_API_KEY= CLAUDE_CODE_OAUTH_TOKEN= \
+ANTHROPIC_DEFAULT_HAIKU_MODEL="$MODEL" ANTHROPIC_DEFAULT_SONNET_MODEL="$MODEL" ANTHROPIC_DEFAULT_OPUS_MODEL="$MODEL" \
+ANTHROPIC_SMALL_FAST_MODEL="$MODEL" \
+  "$CLAUDE" "${ARGS[@]}" < /dev/null

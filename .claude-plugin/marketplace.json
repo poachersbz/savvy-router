@@ -1,0 +1,19 @@
+{
+  "name": "savvy-router",
+  "owner": { "name": "shayan" },
+  "metadata": {
+    "description": "Run Claude Code worker agents on cheap models of a local gateway (9router) and orchestrate them from your main session."
+  },
+  "plugins": [
+    {
+      "name": "router-workers",
+      "source": "./plugins/router-workers",
+      "description": "Mod: delegate/models tools plus a live band and panel for gateway workers."
+    },
+    {
+      "name": "savvy-router",
+      "source": "./plugins/savvy-router",
+      "description": "Skill: /savvy-router orchestration flow on top of router-workers."
+    }
+  ]
+}

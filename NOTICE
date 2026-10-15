@@ -1,0 +1,8 @@
+This project includes code adapted from savvy-progress and savvy-flow by
+johnnyvizz (https://github.com/johnnyvizz/claude-kit), MIT License,
+Copyright (c) 2026 johnnyvizz:
+
+- plugins/router-workers/hooks/register.tsx: the dithered progress band, dotted
+  grid and Pixel Clawd crab drawings and costumes.
+- plugins/savvy-router/skills/savvy-router/SKILL.md: the orchestrator flow is a
+  variant of the savvy-flow skill.

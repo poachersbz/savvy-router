@@ -1,0 +1,42 @@
+{
+  "name": "router-workers",
+  "version": "1.0.0",
+  "description": "Runs worker agents (headless Claude Code) on any model of a local Anthropic-compatible gateway such as 9router, and shows them live: a band above the prompt and a /router-workers panel with each worker's model, status, current action, tokens and time.",
+  "author": { "name": "shayan" },
+  "license": "MIT",
+  "keywords": ["mod", "gateway", "9router", "workers", "gemini"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "defaultModel": {
+      "type": "string",
+      "title": "Default worker model",
+      "description": "Gateway model id used when a delegate call names none (see the models tool)",
+      "default": "ag/gemini-3.8-flash-high"
+    },
+    "gatewayUrl": {
+      "type": "string",
+      "title": "Gateway URL",
+      "description": "Base URL of the Anthropic-compatible gateway; empty uses ROUTER_GATEWAY_URL, then http://localhost:20128",
+      "default": ""
+    },
+    "gatewayKey": {
+      "type": "string",
+      "title": "Gateway API key",
+      "description": "API key for the gateway; empty uses ROUTER_GATEWAY_KEY or gatewayConfigFile",
+      "sensitive": true,
+      "default": ""
+    },
+    "gatewayConfigFile": {
+      "type": "string",
+      "title": "Gateway config file",
+      "description": "Optional JSON file with inferenceGatewayBaseUrl and inferenceGatewayApiKey (the shape of Claude desktop's third-party gateway config); ~ is your home",
+      "default": ""
+    },
+    "claudePath": {
+      "type": "string",
+      "title": "Claude executable",
+      "description": "Path of the claude binary workers run; empty tries ~/.local/bin/claude(.exe), then claude on PATH",
+      "default": ""
+    }
+  }
+}

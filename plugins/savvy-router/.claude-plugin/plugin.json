@@ -1,0 +1,8 @@
+{
+  "name": "savvy-router",
+  "version": "1.0.0",
+  "description": "Orchestrated delivery flow where the session model plans, owns design and reviews, and workers run on cheap gateway models (default Gemini Flash) through the router-workers mod, to save Claude plan tokens. Invoke with /savvy-router <task>.",
+  "author": { "name": "shayan" },
+  "license": "MIT",
+  "keywords": ["skill", "orchestration", "gateway", "token-saving"]
+}
